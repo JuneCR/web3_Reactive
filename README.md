@@ -118,13 +118,23 @@ $$
 
 ​			[系数1000 ， 附加费100000Gas ，支付预算50000]
 
+​		怎么查询呢?[为什么分Lanas ，目标链，因为设计两个费用]
+
+​			Lasnas:
+
+​				cast call $SYSTEM_CONTRACT_ADDR "_gasPriceCoeffPer1000()" --rpc-url $REACTIVE_RPC | 				cast to-dec cast call $SYSTEM_CONTRACT_ADDR "_extraGas()" --rpc-url $REACTIVE_RPC | 				cast to-dec cast call $SYSTEM_CONTRACT_ADDR "_maxChargeGas()" --rpc-url 				$REACTIVE_RPC | cast to-dec
+
+​			目标链:
+
+​				cast call $CALLBACK_PROXY_ADDR "_gasPriceCoeffPer1000()" --rpc-url $DESTINATION_RPC 				| cast to-dec cast call $CALLBACK_PROXY_ADDR "_extraGas()" --rpc-url $DESTINATION_RPC 				| cast to-dec cast call $CALLBACK_PROXY_ADDR "_maxChargeGas()" --rpc-url 				$DESTINATION_RPC | cast to-dec	
+
 ​		**余额的查询**
 
 ​			Balance余额
 
 ​			Lanas上的合约:`cast balance $REACTIVE_CONTRACT_ADDR --rpc-url $REACTIVE_RPC`		        目标链上的合约:`cast balance $CALLBACK_CONTRACT_ADDR --rpc-url $DESTINATION_RPC`
 
-​			为什么要这样?
+​			**为什么要这样?**
 
 ​				Lasnas查余额是为了看充值余额有没有到位，扣了多少钱
 
@@ -150,7 +160,7 @@ $$
 
 ​				$CALLBACK_CONTRACT_ADDR --rpc-url $DESTINATION_RPC | cast to-dec
 
-​			所有的扣费不是都由Lanas合约扣费吗，为什么还能在目标链查询?
+​			**所有的扣费不是都由Lanas合约扣费吗，为什么还能在目标链查询?**
 
 ​				中继合约---> Proxy-----> 目标链合约 都是垫付的需要记录下，最后与Lanas扣款
 
@@ -160,7 +170,7 @@ $$
 
 ​			((uint256,address,uint256,uint256,uint256,bytes)[])" \
 
-  		      $REACTIVE_TX_HASH --rpc-url $REACTIVE_RPC
+​			 $REACTIVE_TX_HASH --rpc-url $REACTIVE_RPC
 
 ​			系统合约记录了发往目标链的每一笔回调
 
